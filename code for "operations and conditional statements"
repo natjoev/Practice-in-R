@@ -1,0 +1,61 @@
+# practice with operators and conditional statements
+# in this example we are handling observations with extreme weather, namely solar > 150 and wind > 10
+data("airquality")
+View(airquality)
+
+airquality[, "Solar.R"] > 150 & airquality[, "Wind"] >10
+# in the previous line of code, "&" aka AND will state the observations that meet BOTH criteria as "TRUE"
+
+airquality[, "Solar.R"] > 150 | airquality[, "Wind"] >10
+# in contrast with the line of code in 7, the "|" aka EITHER OR symbol is for filtering which observations meet either criteria  
+
+airquality[, "Day"] != 1 #this will return days that are not the first days of the month. "!=" here is aka NOT
+!(airquality[, "Solar.R"] > 150 & airquality[, "Wind"] >10)
+# running this code with a ! on the whole thing will give you days that are neither sunny nor windy.
+
+# on conditional operators, namely if(), else(), and else if()...
+
+# example on if 
+if (x>0) {
+  print("x is a positive number")
+}
+# if (condition) THEN {expression}
+
+# example on else
+if (x>0) {
+  print("x is a positive number")
+} else {
+  print ("x is either a negative number or zero")
+}
+
+# Applying this to this data set, the goal is to see if day 1 is a hot day or not. 
+
+if (airquality$Temp[1] < 80) {
+  print("it's not a hot day")
+} else {
+  print("it's not a hot day")
+}
+
+# example on else if
+x <- -1
+if (x < 0) {
+  print("x is a negative number")
+} else if (x == 0) {
+  print("x is zero")
+} else {
+  print("x is a positive number")
+}
+# in this case, if condition 1, which is if x is a negative number, is not met, move on to condition 2, if not, then move on to condition 3
+
+# Applying this to our dataset... 
+
+ozone_level <- airquality[1,"Ozone"]
+if(is.na(ozone_level)){
+  print("Ozone reading is missing for the first day.")
+} else if(ozone_level < 30){ 
+  print("Low ozone level.")
+} else if(ozone_level < 100){ 
+  print("Moderate ozone level.")
+} else{
+  print("High ozone level.")
+}
