@@ -1,0 +1,18 @@
+library(tidyverse)
+
+## on viewing data
+head(diamonds) # displays first several rows of data
+str(diamonds) # type of data of each column
+glimpse(diamonds) # just like head() but this switches it up to horizontal
+colnames(diamonds) # lists the columns 
+
+## on cleaning data
+rename(diamonds, carat_new = carat) # this function will rename the column
+summarize(diamonds, mean_carat = mean(carat)) # makes a statistic from an operator
+
+## on visualizing 
+ggplot(data = diamonds, aes(x = carat, y = price)) + geom_point() 
+# this puts your data in a scatterplot (from the second expression), where the data and axes are determined by the first expression
+ggplot(data = diamonds, aes(x = carat, y = price, color = cut)) + geom_point() # this adds color which is grouped by cut
+ggplot(data = diamonds, aes(x = carat, y = price, color = cut)) + geom_point() + facet_wrap(~cut) 
+# this splits the data into separate scatterplots, grouped by cut
