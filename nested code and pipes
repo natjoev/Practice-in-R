@@ -1,0 +1,37 @@
+data("ToothGrowth") # note that this dataset is used to determine whether the dosage of a specific supplement has an effect on tooth growth. 
+View(ToothGrowth)
+library(tidyverse)
+
+## these lines of code were just for fun
+colnames(ToothGrowth)
+summarize(ToothGrowth, mean_len = mean(len)) #apparently, you can't run this code without tidyverse
+ggplot(data = ToothGrowth, aes(x = dose, y = len, color = supp)) + geom_point() + facet_wrap(~supp)
+##       
+
+## this is where the practice actually starts
+library(dplyr)
+
+filtered_tg <- filter(ToothGrowth, dose == 0.5) 
+filtered_tg
+# this makes it so that the line of code only shows doses of exactly 0.5
+arrange(filtered_tg, len) # returns filtered_tg in ascending order by len
+
+arrange(filter(ToothGrowth, dose == 0.5),len) # nested function. filters data first, then arranges it
+# note that this is the same result as in executing line 17
+
+filtered_toothgrowth <- ToothGrowth %>% # create variable
+  filter(dose == 0.5) %>% # filter it 
+  arrange(len) # orders it by 
+# line 22-24 is an example of using pipes. The first group is executed first, the next is executed, and the final result will be produced by the last code in the pipe
+##  reflection: the pipe in this example is like performing a SQL query, 
+##              where it generates a variable (SELECT and FROM), gives it a criteria (WHERE), 
+##              and orders it by a varable (ORDER BY)
+
+## reflection: pipes make it so that your code is not so cluttered and can easily be edited as it is written in a
+##             way that is part-by-part.
+
+## following the previous logic, to get the average length for each supplement...
+filtered_toothgrowth <- ToothGrowth %>%
+  filter(dose == 0.5) %>% 
+  group_by(supp) %>%
+  summarize(mean_len = mean(len, na.rm = T), .group = "drop")
