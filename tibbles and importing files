@@ -1,0 +1,29 @@
+## on using tibbles and importing data
+
+library(tidyverse) 
+data(diamonds)
+View(diamonds)
+ 
+as_tibble(diamonds) # CUTEEEEEEEEEEE
+
+data() # this function explores available data frames 
+data(mtcars) # this will load the specific data frame mtcars
+as_tibble(mtcars)
+
+## the read() function is used to read rectangular data 
+# read_csv(): comma-separated values (.csv) files
+# read_tsv(): tab-separated values files
+# read_delim(): general delimited files
+# read_fwf(): fixed-width files
+# read_table(): tabular files where columns are separated by white-space
+# read_log(): web log files
+
+## additionally, you can use the read_excel() function for .xls and .xml stuff
+## you would have to load library(readxl) first
+
+
+## more on importing and working with data
+setwd('C:\Users\ael\OneDrive\Desktop') # to tell R where to look for the file
+read_csv("hotel_bookings.csv") # code used to import
+bookings_df <- read_csv("hotel_bookings.csv") # to make a data frame using the .csv file
+
