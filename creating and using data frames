@@ -1,0 +1,48 @@
+## this activity is on creating and using data frames 
+
+library(tidyverse)
+library(ggplot2)
+
+##load the data set
+data("diamonds")
+View(diamonds)
+head(diamonds) # this gives a few lines 
+str(diamonds) # high level info on your data 
+colnames(diamonds) # colum names of your data frame
+
+## to edit your data frame. 
+mutatate(diamonds, carat_2 = carat*100) # this makes a new column ( , y) in a given data frame (x, )
+
+## now to the actual activity
+
+## on the manual creation of data frames
+# step one, create some vectors 
+# step two, collect them in a data frame using `data.frame()` function
+# example...
+
+name <- c("NJ", "Theo", "Paul")
+age <- c(21L, 2L, 99L) # L is used to show that these are integers
+# you can then create a data frame using these two vectors
+
+people <- data.frame(name, age) # this creates the data frame
+# you can now view/inspect the data frame using the commands executed before (i.e. line 7-11)
+# but we will use glimpse() for this 
+glimpse(people)
+
+### now to have some fun :> 
+
+summary(people, ave_age = mean(age))
+
+### exercise 
+
+fruit <- c("banana", "mango", "apple", "watermelon", "grapes")
+score <- c(4, 3, 5, 1, 2)
+fruit_score <- data.frame(fruit, score)
+
+top_fruits <- fruit_score %>%
+arrange(score) # no need to express where it came from
+
+top_fruits
+
+is_yummy <- c("yes","yes","yes","yes","yes")
+mutate(top_fruits, is_yummy)
