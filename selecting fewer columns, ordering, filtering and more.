@@ -1,0 +1,66 @@
+## on cleaning and organizing data 
+
+install.packages("here") 
+library("here") #this package makes referencing files easier
+install.packages("skimr")
+library("skimr") 
+install.packages("janitor")
+library("janitor")
+# the last two packages are used for data cleaning 
+
+# make sure to load the dplyr package as well
+library("dplyr")
+# also 
+library(tidyverse)
+
+## now to work with the dataset...
+install.packages("palmerpenguins")
+library("palmerpenguins")
+
+## on organizing data
+penguins %>%
+  arrange(bill_length_mm)
+# to sort it in descending order (longest bill first), then add a minus on the column name
+penguins %>%
+  arrange(-bill_length_mm)
+
+# grouping by
+penguins %>%
+  group_by(island) %>%
+  drop_na() %>% # this drops observations/rows with NA values
+  summarize(mean_bill_length=mean(bill_length_mm)) # you can also perform this with max and min or any other summary statistics
+# remember, everytime you use a statistic, always use group by 
+
+## filters 
+penguins %>% 
+  filter(species == "Adelie") 
+# this pipe returns a table which only includes the Adelie (exact spelling) species of penguin
+
+### now on to the ACTUAL activity on data cleaning 
+
+## first import the data on hotel bookings
+setwd('C:/Users/ael/OneDrive/Desktop')
+bookings_df <- read_csv("hotel_bookings.csv")
+
+head(bookings_df)
+str(bookings_df)
+glimpse(bookings_df)
+colnames(bookings_df)
+skim_without_charts(bookings_df)
+# standard data previewing operations 
+# how would I explain this to a stakeholder? well, the data contains information 
+# on hotel bookings, including what kind of rooms different people have reserved, 
+# on what date, from which agent, as well as lots of different related data.
+
+## since our code have a lot of columns, we only want a few relevant ones 
+trimmed_df <- bookings_df %>%
+  select(hotel, is_canceled, lead_time) %>%
+  rename(hotel_type=hotel) # this renames our df
+
+## another way of doing things
+example_df <- bookings_df %>% 
+  mutate(guests = adults + children + babies) %>% 
+  mutate(number_canceled = sum(is_canceled)) %>%
+  mutate(average_lead_time = mean(lead_time))
+
+head(example_df)
