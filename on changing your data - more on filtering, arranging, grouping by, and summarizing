@@ -1,0 +1,45 @@
+### on changing your data - more on filtering, arranging, grouping by, and summarizing
+## load necessary packages
+library(tidyverse)
+library(skimr)
+library(janitor)
+
+## for our data set, we use the hotel_bookings again
+setwd("C:/Users/ael/OneDrive/Desktop")
+read.csv("hotel_bookings.csv")
+hotel_bookings <- read.csv("hotel_bookings.csv")
+
+## SOP, look at your data first 
+skim_without_charts(hotel_bookings)
+as_tibble(hotel_bookings)
+head(hotel_bookings)
+colnames(hotel_bookings)
+glimpse(hotel_bookings)
+str(hotel_bookings)
+
+## ordering 
+arrange(hotel_bookings, lead_time)
+arrange(hotel_bookings, desc(lead_time)) # if you want it to be in DESC order
+# note: this does alter the original data frame 
+# if you want to make a df with the descending lead time, make a new df, namely,
+hotel_bookings_v2 <- arrange(hotel_bookings, desc(lead_time))
+
+# to quickly view what is the max or min, you can apply the ff functions...
+max(hotel_bookings$lead_time)
+min(hotel_bookings$lead_time)
+# you can also do this for the mean 
+mean(hotel_bookings$lead_time)
+
+## if you want data specific for city hotels...
+
+city_hotel_bookings <- filter(hotel_bookings, hotel_bookings$hotel=="City Hotel")
+mean(city_hotel_bookings$lead_time)
+
+## now a table for all the summaries
+
+city_hotel_summaries <-
+  city_hotel_bookings %>%
+  group_by(hotel) %>%
+  summarise(average_lead_time = mean(lead_time),
+            min_lead_time = min(lead_time),
+            max_lead_time = max(lead_time))
