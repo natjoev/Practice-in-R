@@ -1,0 +1,45 @@
+### on the transformation of data (separate(), mutate(), and unite()) as well as turning data into long from wide
+## but first, preliminary steps 
+
+id <- c(1:10) # vector for id no. 1-10
+
+name <- c("John Mendes", "Rob Stewart", "Rachel Abrahamson", "Christy Hickman", "Johnson Harper", "Candace Miller", "Carlson Landy", "Pansy Jordan", "Darius Berry", "Claudia Garcia")
+job_title <- c("Professional", "Programmer", "Management", "Clerical", "Developer", "Programmer", "Management", "Clerical", "Developer", "Programmer")
+employee <- data.frame(id, name, job_title) # on the creation of the data frame
+
+## (install) load necessary packages
+install.packages("tidyr")
+library(tidyr)
+
+## task start, first, notice that when you view the employee data set, the first and last names are combined
+## to separate them, use separate()
+print(employee)
+separate(employee, name,into=c('first_name', 'last_name'), sep =' ')
+# the syntax is (data_frame, 'into what column names', sep = 'delimiter')
+# note that it removes the original column 
+
+## you can also unite(), which is the opposite of separate
+
+first_name <- c("John", "Rob", "Rachel", "Christy", "Johnson", "Candace", "Carlson", "Pansy", "Darius", "Claudia")
+last_name <- c("Mendes", "Stewart", "Abrahamson", "Hickman", "Harper", "Miller", "Landy", "Jordan", "Berry", "Garcia")
+job_title <- c("Professional", "Programmer", "Management", "Clerical", "Developer", "Programmer", "Management", "Clerical", "Developer", "Programmer")
+employee <- data.frame(id, first_name, last_name, job_title)
+
+print(employee)
+
+unite(employee, 'name', first_name, last_name, sep = ' ') 
+
+## create new variables called mutate()
+library(palmerpenguins)
+library(dplyr)
+View(penguins)
+
+penguins %>%
+  mutate(body_mass_kg = body_mass_g/1000, flipper_length_m = flipper_length_mm/1000) 
+# note: you can add another argument in the mutate() function and it will create another column
+
+
+### on the conversion of wide to long and vice_versa...
+## you can use the functions pivot_longer() or pivot_wider(). These are from the tidyr package
+# just check this link, its kinda complex lol https://tidyr.tidyverse.org/articles/pivot.html
+# check this one for visualizing them using ggplot https://scc.ms.unimelb.edu.au/resources/tips-for-using-r/r-scripts
