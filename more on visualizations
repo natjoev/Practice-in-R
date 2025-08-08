@@ -1,0 +1,29 @@
+### on using ggplot2
+library(ggplot2)
+library(palmerpenguins)
+
+View(penguins)
+
+## suppose you want to find the relationship between body mass and flipper
+## length with the species
+
+ggplot(data = penguins) + geom_point(mapping = aes(x=flipper_length_mm, y = body_mass_g))
+# first argument is the data to use, + is to add a layer to the plot, geompoint
+# is used to define what the axes are, which is defined by aes().
+
+## with the activity, we use hotel_bookings again 
+setwd('C:/Users/ael/OneDrive/Desktop')
+read.csv('hotel_bookings.csv')
+hotel_bookings <- read.csv('hotel_bookings.csv')
+
+head(hotel_bookings)
+
+## to determine if adults with children will tend to book more in advance
+ggplot(data = hotel_bookings) + 
+  geom_point(mapping = aes(x = lead_time, y = children))
+
+## another problem 
+ggplot(data = hotel_bookings) +
+  geom_point(mapping = aes(y = stays_in_weekend_nights, x = children))
+
+### this is a work in progress
