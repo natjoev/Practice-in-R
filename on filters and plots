@@ -1,0 +1,30 @@
+### on filters and plots (ggplot2 cont.)
+library(ggplot2)
+library(tidyverse)
+setwd("C:/Users/ael/OneDrive/Desktop")
+read.csv("hotel_bookings.csv")
+hotel_bookings <- read.csv("hotel_bookings.csv")
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = hotel, fill = market_segment)) 
+# this line of code is used to get the number of bookings per hotel type while being categorized by market segment 
+# since the market segments per hotel category are stacked together, it might be harder to interpret. that's why use facet wrap
+ggplot(data = hotel_bookings) + 
+  geom_bar(mapping = aes(x = hotel, fill = market_segment)) +
+  facet_wrap(~market_segment)
+
+## on filtering
+onlineta_city_hotels <- filter(hotel_bookings, (hotel == "City Hotel" &
+                                 hotel_bookings$market_segment == "Online TA"))
+# this filters the data to just bookings for City Hotels that are Online TA 
+# or you can also use pipes
+
+onlineta_city_hotels_v2 <- hotel_bookings %>%
+  filter(hotel=="City Hotel") %>%
+  filter(market_segment=="Online TA")
+
+# now to get the visual
+
+ggplot(data = onlineta_city_hotels_v2) +
+  geom_point(mapping = aes(x = lead_time, y = children ))
+# this contains data only on city hotels from the market segment of "Online TA"  
