@@ -1,0 +1,63 @@
+### on annotations and saving visuals (ggplot2 cont.)
+library(ggplot2)
+library(tidyverse)
+setwd("C:/Users/ael/OneDrive/Desktop")
+read.csv("hotel_bookings.csv")
+hotel_bookings <- read.csv("hotel_bookings.csv")
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = market_segment)) + 
+  facet_wrap(~hotel)
+# this results in a plot, but the problem is that it is kind of unclear
+# i.e. there is no title, subtitle and even the axis tick names are crowded
+# we can use ggplot2 to fix this, specifically the labs() function
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = market_segment)) + 
+  facet_wrap(~hotel) + 
+  labs(title = "Market Segments by Hotel Type") # the labs() func. is added as a new layer 
+
+## now to add some more info, first, create the info. 
+
+earliest_year <- min(hotel_bookings$arrival_date_year)
+latest_year <- max(hotel_bookings$arrival_date_year)
+# as a refresher, we are creating variables from functions. The syntax is f(source$colummn)
+# we can then use these variables as info for our annotations
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = market_segment)) +
+  facet_wrap(~hotel) + 
+  labs(title = "Market Segments by Hotel Type", subtitle = paste("Data from: ", earliest_year," to ", latest_year))
+
+# to turn the data source from subtitle to caption, simply change the last layer's subtitle= to caption=
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = market_segment)) +
+  facet_wrap(~hotel) + 
+  labs(title = "Market Segments by Hotel Type", caption = paste("Data from: ", earliest_year," to ", latest_year))
+
+# now to adjust axis tick titles, add a layer after the facet_wrap layer
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = market_segment)) +
+  facet_wrap(~hotel) + 
+  theme(axis.text.x = element_text(angle = 35)) +
+  labs(title = "Market Segments by Hotel Type", caption = paste("Data from: ", earliest_year," to ", latest_year))
+
+# now for the finishing touches, rename the axes 
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = market_segment)) +
+  facet_wrap(~hotel) + 
+  theme(axis.text.x = element_text(angle = 35)) +
+  labs(title = "Market Segments by Hotel Type",
+       caption = paste("Data from: ", earliest_year," to ", latest_year),
+       x = "Market Segment",
+       y = "No. of Bookungs") 
+# notice that the command for renaming the axis in labs() is to directly equate x or y 
+
+## saving
+
+ggsave('hotel_booking_chart.png')
+ 
+# you can also specify the dimensions of the image using...
+
+ggsave('hotel_booking_chart.png',
+       width=,
+       height=) # just fill in the equations 
